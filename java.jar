@@ -1,0 +1,15 @@
+
+FROM eclipse-temurin:25_36-jdk AS runtime
+LABEL project="java project"
+LABEL author="Devopsteam"
+ENV project=prod
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV MAVEN_HOME=/opt/apache-maven-3.9.11
+ARG myownuser=abhishek
+ARG homedir=/usr/share/abhishe
+RUN useradd -m -d ${homedir} -s /bin/sh ${myownuser}
+USER ${myownuser}
+COPY --from=build /APPJAVA/target/*.jar /devops/sarvesh.jar
+WORKDIR /devops
+EXPOSE 8080
+CMD ["java","-jar","sarvesh.jar"]
